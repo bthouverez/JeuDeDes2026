@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.Scanner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -28,8 +27,14 @@ public class Main {
         // Le jeu tourne tant que la partie n'est pas gagnée
         while(!j.partieGagnee()) {
             // Demande à l'utilisateur quel dé il souhaite relancer
-            System.out.println("Quel dé relancer ?\n\n1: Le premier\n" +
-                    "2: Le second\n3: Le troisième\n4: Tous !\n");
+            System.out.println("""
+                    Quel dé relancer ?
+                    
+                    1: Le premier
+                    2: Le second
+                    3: Le troisième
+                    4: Tous !
+                    """);
 
             // Récupère le choix de l'utilisateur et relance le(s) dé(s) correspondant(s)
             int choix =  sc.nextInt();
