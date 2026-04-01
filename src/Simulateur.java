@@ -3,6 +3,8 @@ import java.util.ArrayList;
 public class Simulateur {
     private De leDe;
     private ArrayList<ArrayList<Integer>> scores;
+    private int nbJoueurs;
+    private int nbLancers;
 
     // Constructeur par défaut
     public Simulateur() {
@@ -10,18 +12,30 @@ public class Simulateur {
         this.scores = new ArrayList<>();
         // Initialise le Dé qui permettra de faire les lancers
         this.leDe = new De(6);
+
+        // Par défaut, initialise le nombre de joueurs à 3 et le nombre de lancers à 5
+        this.nbJoueurs = 3;
+        this.nbLancers = 5;
+    }
+
+    // Constructeur paramétre du nombre de joueurs et de lancers
+    public Simulateur(int j, int l) {
+        this.scores = new ArrayList<>();
+        this.leDe = new De(6);
+        this.nbJoueurs = j;
+        this.nbLancers = l;
     }
 
     // Génère tous les lancers de tous les joueurs dans le tableau de scores
     public void remplir() {
         scores.add(new ArrayList<>());
-        // boucle 20 fois pour les 20 joueurs
-        for(int ii = 0; ii < 20; ii++) {
+        // boucle this.nbJoueurs fois pour les this.nbJoueurs joueurs
+        for(int ii = 0; ii < this.nbJoueurs; ii++) {
             // Crée un nouvel ArrayList pour les scores du joueur courant
             ArrayList<Integer> liste = new ArrayList<>();
             liste.add(-1);
-            // Boucle 10 fois pour les 10 lancers du joueur
-            for(int jj = 0; jj < 10; jj++) {
+            // Boucle this.nbLancers fois pour les this.nbLancers lancers du joueur
+            for(int jj = 0; jj < this.nbLancers; jj++) {
                 // Lance le dé et ajoute sa valeur à la liste
                 this.leDe.lancer();
                 liste.add(this.leDe.getValeur());
@@ -34,14 +48,14 @@ public class Simulateur {
     // Affiche les lancers d'un joueur
     public void afficherLancersJoueur(int n) {
         System.out.print("Joueur "+n+" : ");
-        for (int jj = 1; jj <= 10; jj++) {
+        for (int jj = 1; jj <= this.nbLancers; jj++) {
             System.out.print(this.scores.get(n).get(jj)+" ");
         }
     }
 
     // Affiche les lancers de tous les joueurs
     public void afficher() {
-        for (int ii = 1; ii <= 20; ii++) {
+        for (int ii = 1; ii <= this.nbJoueurs; ii++) {
             this.afficherLancersJoueur(ii);
             System.out.println();
         }
@@ -52,7 +66,7 @@ public class Simulateur {
         // Déclare la variable qui permettra de calculer le score
         int score = 0;
         // Parcours de tous les lancers du joueur
-        for (int ii = 1; ii <= 10; ii++) {
+        for (int ii = 1; ii <= this.nbLancers; ii++) {
             // Calcul de son score total
             score += this.scores.get(n).get(ii);
         }
@@ -64,12 +78,28 @@ public class Simulateur {
         // Déclare la variable qui permettra de calculer le nombre de 6
         int nb6 = 0;
         // Parcours de tous les lancers du joueur
-        for (int ii = 1; ii <= 10; ii++) {
+        for (int ii = 1; ii <= this.nbLancers; ii++) {
             // Ajoute à la variable si un lancer du joueur vaut 6
             if(this.scores.get(n).get(ii) == 6) {
                 nb6++;
             }
         }
         return nb6;
+    }
+
+    public String toString() {
+        String r = "###################################\n";
+        r +=       "     RÉSULTATS COUPE DU MONDE    \n";
+        r += "  " + this.nbJoueurs + " joueurs, " + this.nbLancers + " lancers chacun  \n";
+        r +=       "###################################\n\n";
+        for(int ii = 1; ii <= this.nbJoueurs; ii++) {
+            r += "Joueur " + ii + " : ";
+            r += this.totalJoueur(ii) + " -> ";
+            for(int jj = 1; jj <= this.nbLancers; jj++) {
+                r += this.scores.get(ii).get(jj) + " ";
+            }
+            r += "[" + this.nombreDeSixJoueur(ii) + "]\n";
+        }
+        return r;
     }
 }
